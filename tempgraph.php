@@ -8,7 +8,7 @@ include ("/srv/www/vhosts/chanhdat.us/httpdocs/jpgraph/jpgraph_date.php");
 // Datenbank-Zugriff
 include("db.php");
 
-//Die 24 letze Messwerten aufrufen (= 24 Stunden)
+//Die 48 letze Messwerten aufrufen (= 24 Stunden)
 
 $sqlTemp = "SELECT `DATUM`, `TEMP` FROM `2Tage` ORDER BY `ID` DESC LIMIT 48"; 
 
