@@ -38,6 +38,14 @@ void loop(){
   myDHT22.readData();
   float feuchte = myDHT22.getHumidity();
 
+//Bug#1: Wenn man die Messwert von Feuchtigkeit so schnell lies (exakt nach der Aktivierung)
+//bekommt man immer 99.50% => D.h muss man 1 Sek warten, bevor man es richtig lesen kann.
+
+  if (feuchte =	99.50) {
+  delay(1000);
+  myDHT.readData();
+  feuchte = myDHT22.getHumidity();
+  }
 //  Serial.print("Temperatur: ");
   Serial.print(temperatur);
   Serial.println("T");
