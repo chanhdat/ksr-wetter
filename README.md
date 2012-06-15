@@ -29,6 +29,7 @@ using REMOTE.c
 3. Server site: using PHP to get data from Base unit and then drawing a graph of temperature, humidity and air pressure of the last 48 hours.
 
 Building instruction:
+
 1. Base unit: just put everything together and upload the code.
 Don't forget to connect ICSP to Xbee Shield (Only pin 2, 5, 6: VTG (5v), RST (reset), GND (ground).
 
