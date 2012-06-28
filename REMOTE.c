@@ -7,6 +7,9 @@
 #include <Wire.h>
 //Steuerung-Library für BMP085: Luftdruck/Temp.sensor
 
+#include <math.h>
+//Mathematik-Bibliothek
+
 #define DHT22_PIN 7 //Data-Pin von DHT22 verbindet mit Pin 7 von MIC
 DHT22 myDHT22(DHT22_PIN);
 
@@ -46,6 +49,20 @@ void loop(){
   myDHT.readData();
   feuchte = myDHT22.getHumidity();
   }
+  
+  if (temperatur >= 0) {
+    double a = 7.5;
+    double b = 237.3;
+  } else {
+    double a = 7.6;
+    double b = 240.7;
+  }
+  
+  double SDD = 6.1078 * 10>>((a*temperatur)/(b+temperatur)); // Sättigungsdampfdruck in hPa
+  double DD = feuchte/100 * SDD; //Dampfdruck in hPa
+  double log10
+  double TD = 
+  
 //  Serial.print("Temperatur: ");
   Serial.print(temperatur);
   Serial.println("T");
