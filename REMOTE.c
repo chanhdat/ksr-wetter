@@ -22,6 +22,7 @@ int ac1, ac2, ac3;
 unsigned int ac4, ac5, ac6;
 int b1, b2, mb, mc, md;
 
+//
 long b5; 
 //wird in bmp085GetTemperature und auch in bmp085GetPressure berechnet
 //Temp() muss vor Druck() kommen
@@ -60,12 +61,16 @@ void loop(){
   
   double SDD = 6.1078 * 10>>((a*temperatur)/(b+temperatur)); // Sättigungsdampfdruck in hPa
   double DD = feuchte/100 * SDD; //Dampfdruck in hPa
-  double log10
-  double TD = 
+  double v = log(DD/6.1078) / log(10);
+  double taupunkt = b * v /(a - v);
   
 //  Serial.print("Temperatur: ");
   Serial.print(temperatur);
   Serial.println("T");
+  
+//  Serial.print("Taupunkttemperatur in °C: ")
+  Serial.print(taupunkt);
+  Serial.println("P");
 
 //  Serial.print("Luftdruck: ");
   Serial.print(druck, 1); //mit 1 Nummer hinter dem Komma
