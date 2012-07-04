@@ -70,6 +70,7 @@ int dataLesen() {
     incomingByte = Serial.read();
     
     if (incomingByte == 'T') temperatur = atof(cArray);
+    if (incomingByte == 'P') taupunkt = atof(cArray);
     if (incomingByte == 'D') druck = atof(cArray);
     if (incomingByte == 'F') {feuchte = atof(cArray); done = 1;}
     
