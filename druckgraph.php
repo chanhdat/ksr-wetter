@@ -10,7 +10,7 @@ include("db.php");
 
 //Die 48 letze Messwerten aufrufen (= 24 Stunden)
 
-$sqlDruck = "SELECT `DATUM`, `DRUCK` FROM `2Tage` ORDER BY `ID` DESC LIMIT 48"; 
+$sqlDruck = "SELECT `DATUM`, `QFE` FROM `1Tag` ORDER BY `ID` DESC LIMIT 48"; 
 
 $druck = mysql_query($sqlDruck) or die(mysql_error());
 

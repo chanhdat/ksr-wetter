@@ -10,7 +10,7 @@ include("db.php");
 
 //Die 48 letze Messwerten aufrufen (= 24 Stunden)
 
-$sqlFeuchte = "SELECT `DATUM`, `FEUCHTE` FROM `2Tage` ORDER BY `ID` DESC LIMIT 48"; 
+$sqlFeuchte = "SELECT `DATUM`, `FEUCHTE` FROM `1Tag` ORDER BY `ID` DESC LIMIT 48"; 
 
 $feuchte = mysql_query($sqlFeuchte) or die(mysql_error());
 
