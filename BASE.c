@@ -8,9 +8,17 @@
 char cArray[10]; 
 int ic=0;
 
-double temperatur = 0;
-double druck = 0;
+double temp = 0;
+double qfe = 0;
+double qff = 0;
 double feuchte = 0;
+double taupunkt = 0;
+
+//Variablen für QFF-Brechnung
+double x;
+double konst1 = 2731.5;
+double h = 480; //Wetterstationshöhe über Meer
+double konst2 = h/30.8;
 
 //Server-Infomation eingeben
 char serverName[] = "www.chanhdat.us";
@@ -32,13 +40,21 @@ void setup(){
 
 void loop(){
   if (dataLesen()==1) {
+  //QFF-Berechnung
+  x = ((temp + konst1)/(qfe/100)*exp(((temp+konst1+konst2)*11.5526-26821)/(temp+konst1+konst2-1060));
+  qff = (qfe/100)*exp(konst2*10.5152/(x+temp+konst1+konst2));
+  //Messwerten abschicken
   if (client.connect(serverName, 80)) {
     //Serial.println("Verbunden ... sende ... fertig!");
     // URL anrufen:
     client.print("GET /upload.php?TEMP=");
-    client.print(temperatur);
-    client.print("&DRUCK=");
-    client.print(druck/100, 1);
+    client.print(temp);
+    client.print("&TAU=");
+    client.print(taupunkt);
+    client.print("&QFE=");
+    client.print(qfe/100, 1);
+    client.print("&QFF=");
+    client.print(qff,1);
     client.print("&FEUCHTE=");
     client.print(feuchte);
     client.println("&key=root HTTP/1.0\n");
@@ -60,6 +76,7 @@ void loop(){
   }*/
 }
 }
+
 int dataLesen() {
   int done = 0;
   
@@ -69,9 +86,9 @@ int dataLesen() {
     //Lesen
     incomingByte = Serial.read();
     
-    if (incomingByte == 'T') temperatur = atof(cArray);
+    if (incomingByte == 'T') temp = atof(cArray);
     if (incomingByte == 'P') taupunkt = atof(cArray);
-    if (incomingByte == 'D') druck = atof(cArray);
+    if (incomingByte == 'D') qfe = atof(cArray);
     if (incomingByte == 'F') {feuchte = atof(cArray); done = 1;}
     
       //If the recieved byte is a digit (specified by ASCII values 65 to 90)
