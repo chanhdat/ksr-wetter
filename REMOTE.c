@@ -44,6 +44,7 @@ void loop(){
   myDHT22.readData();
   float feuchte = myDHT22.getHumidity();
   
+//Taupunkt berechnen
   if (temperatur >= 0) {
     a = 7.5;
     b = 237.3;
@@ -55,7 +56,7 @@ void loop(){
   double SDD = 6.1078 * pow(10,((a*temperatur)/(b+temperatur))); // Sättigungsdampfdruck in hPa
   double DD = feuchte/100 * SDD; //Dampfdruck in hPa
   double v = log(DD/6.1078) / log(10);
-  double taupunkt = b * v /(a - v);
+  double taupunkt = b * v /(a - v); //Taupunkttemperatur in °C
   
 //  Serial.print("Temperatur: ");
   Serial.print(temperatur);
