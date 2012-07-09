@@ -22,6 +22,8 @@ int ac1, ac2, ac3;
 unsigned int ac4, ac5, ac6;
 int b1, b2, mb, mc, md;
 
+//Zusätzliche Variablen (für Taupunkt berechnen)
+double a, b;
 //
 long b5; 
 //wird in bmp085GetTemperature und auch in bmp085GetPressure berechnet
@@ -47,19 +49,18 @@ void loop(){
 
   if (feuchte =	99.50) {
   delay(1000);
-  myDHT.readData();
   feuchte = myDHT22.getHumidity();
   }
   
   if (temperatur >= 0) {
-    double a = 7.5;
-    double b = 237.3;
+    a = 7.5;
+    b = 237.3;
   } else {
-    double a = 7.6;
-    double b = 240.7;
+    a = 7.6;
+    b = 240.7;
   }
   
-  double SDD = 6.1078 * 10>>((a*temperatur)/(b+temperatur)); // Sättigungsdampfdruck in hPa
+  double SDD = 6.1078 * pow(10,((a*temperatur)/(b+temperatur))); // Sättigungsdampfdruck in hPa
   double DD = feuchte/100 * SDD; //Dampfdruck in hPa
   double v = log(DD/6.1078) / log(10);
   double taupunkt = b * v /(a - v);
