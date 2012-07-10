@@ -7,7 +7,7 @@ if ((($_GET['key']) == "root")) {	//wenn key stimmt
 	$TEMP = ($_GET['TEMP']);
 	$TAU = ($_GET['TAU']);
 	$QFE = ($_GET['QFE']);
-	$GFF = ($_GET['QFF']);
+	$QFF = ($_GET['QFF']);
 	$FEUCHTE = ($_GET['FEUCHTE']);
 	
 	//Eingetragene Messwerten anzeigen - Debug!
