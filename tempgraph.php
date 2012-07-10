@@ -11,17 +11,25 @@ include("db.php");
 //Die 48 letze Messwerten aufrufen (= 24 Stunden)
 
 $sqlTemp = "SELECT `DATUM`, `TEMP` FROM `1Tag` ORDER BY `ID` DESC LIMIT 48"; 
+$sqlTau = "SELECT `DATUM`, `TAU` FROM `1Tag` ORDER BY `ID` DESC LIMIT 48"; 
 
 $temp = mysql_query($sqlTemp) or die(mysql_error());
+$tau = mysql_query($sqlTau) or die(mysql_error());
 
 //In Array eintragen
 $i=0;
-while ($array = mysql_fetch_row($temp)) {
-	$datum[$i] = strtotime($array[0]);
-	$TempWert[$i] = $array[1];
+while ($array1 = mysql_fetch_row($temp)) {
+	$datum[$i] = strtotime($array1[0]);
+	$TempWert[$i] = $array1[1];
 	$i++;
 }
 
+$i=0;
+while ($array2 = mysql_fetch_row($tau)) {
+	$datum[$i] = strtotime($array2[0]);
+	$TauWert[$i] = $array2[1];
+	$i++;
+}
 //Grafik generieren
 $graph = new Graph(1000,600,"auto");
 $graph->SetMargin(40,40,20,100); 			//Rahmen
@@ -42,6 +50,10 @@ $graph->Add($templinie);
 $templinie->SetColor('red','darked');
 $graph->Add($templinie); 
 
+$taulinie = new LinePlot($TauWert, $datum);
+$graph->Add($taulinie);
+$taulinie->SetColor('blue','darked');
+$graph->Add($taulinie); 
 
 //Grafik anzeigen
 $graph->Stroke();
