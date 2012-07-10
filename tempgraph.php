@@ -10,7 +10,7 @@ include("db.php");
 
 //Die 48 letze Messwerten aufrufen (= 24 Stunden)
 
-$sqlTemp = "SELECT `DATUM`, `TEMP` FROM `2Tage` ORDER BY `ID` DESC LIMIT 48"; 
+$sqlTemp = "SELECT `DATUM`, `TEMP` FROM `1Tag` ORDER BY `ID` DESC LIMIT 48"; 
 
 $temp = mysql_query($sqlTemp) or die(mysql_error());
 
