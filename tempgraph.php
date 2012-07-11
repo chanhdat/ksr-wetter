@@ -32,8 +32,8 @@ while ($array2 = mysql_fetch_row($tau)) {
 }
 //Grafik generieren
 $graph = new Graph(1000,600,"auto");
-$graph->SetMargin(40,40,20,100); 			//Rahmen
-$graph->SetTitle("Verlauf Temperatur Heute");
+$graph->SetMargin(40,20,40,100); 			//Rahmen
+$graph->title->Set("Verlauf Temperatur Heute");
 
 //XY-Achse: datint: Datum - Integer
 $graph->SetScale("datint");
