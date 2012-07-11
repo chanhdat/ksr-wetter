@@ -52,9 +52,18 @@ $graph->Add($templinie);
 
 $taulinie = new LinePlot($TauWert, $datum);
 $graph->Add($taulinie);
-$taulinie->SetColor('blue','darked');
+$taulinie->SetColor('blue');
 $graph->Add($taulinie); 
 
+//Legende
+$templinie->SetLegend('Temperatur');
+$taulinie->SetLegend('Taupunkt');
+
+$graph->legend->Pos(0.1, 0.95, 'center', 'top');
+$graph->legend->SetLayout(LEGEND_HOR);
+$graph->legend->SetColor ("darkblue"); 
+$graph->legend->SetFont(FF_FONT1 ,FS_NORMAL); 
+$graph->legend->SetFillColor ('gray'); 
 //Grafik anzeigen
 $graph->Stroke();
 
