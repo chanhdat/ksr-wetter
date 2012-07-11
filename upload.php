@@ -12,9 +12,9 @@ if ((($_GET['key']) == "root")) {	//wenn key stimmt
 	
 	//Eingetragene Messwerten anzeigen - Debug!
 	echo "<p>Temperatur ist ".$TEMP ."</p>";
-	echo "<p>Taupunkttemperatur ist ".$TEMP ."</p>";
+	echo "<p>Taupunkttemperatur ist ".$TAU ."</p>";
 	echo "<p>Luftdruck auf Stationshoehe ist ".$QFE ."</p>";
-	echo "<p>Luftdruck auf Meereshöhe ist ".$QFF ."</p>";
+	echo "<p>Luftdruck auf Meeresh&oumlhe ist ".$QFF ."</p>";
 	echo "Die Feuchtigkeit liegt bei ".$FEUCHTE." %";
 	
 	//Daten in Tabelle eintragen
