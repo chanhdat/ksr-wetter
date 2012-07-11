@@ -38,10 +38,8 @@ $graph -> xgrid -> Show(true, true);
 
 //Graphen generieren
 $feuchtelinie = new LinePlot($FeuchteWert, $datum);
-$graph->Add($feuchtelinie);
-$feuchtelinie->SetColor('red','darked');
 $graph->Add($feuchtelinie); 
-
+$feuchtelinie->SetColor("red");
 
 //Grafik anzeigen
 $graph->Stroke();

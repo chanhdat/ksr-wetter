@@ -38,10 +38,8 @@ $graph -> xgrid -> Show(true, true);
 
 //Graphen generieren
 $drucklinie = new LinePlot($DruckWert, $datum);
-$graph->Add($drucklinie);
-$drucklinie->SetColor('red','darked');
 $graph->Add($drucklinie); 
-
+$drucklinie->SetColor('red','darked');
 
 //Grafik anzeigen
 $graph->Stroke();
