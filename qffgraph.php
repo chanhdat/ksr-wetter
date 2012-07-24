@@ -25,6 +25,7 @@ while ($array = mysql_fetch_row($druck)) {
 //Grafik generieren
 $graph = new Graph(1000,600,"auto");
 $graph->SetMargin(40,40,20,100); 			//Rahmen
+$graph->title->Set("Verlauf des Luftdruck (auf Meeresh&oumlhe: 480 m.&uuml.M) Heute");
 
 //XY-Achse: datint: Datum - Integer
 $graph->SetScale("datint");
@@ -40,6 +41,14 @@ $graph -> xgrid -> Show(true, true);
 $drucklinie = new LinePlot($DruckWert, $datum);
 $graph->Add($drucklinie); 
 $drucklinie->SetColor('red','darked');
+
+//legende
+$drucklinie->SetLegend('luftdruck auf Meeresh&oumlhe');
+$graph->legend->SetLineWeight(2);
+$graph->legend->Pos(0.05, 0.01, 'right', 'top');
+$graph->legend->SetColor("darkblue");
+$graph->legend->SetFont(FF_FONT1, FS_NORMAL);
+$graph->legend->SetFillColor('gray');
 
 //Grafik anzeigen
 $graph->Stroke();

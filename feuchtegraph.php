@@ -25,6 +25,7 @@ while ($array = mysql_fetch_row($feuchte)) {
 //Grafik generieren
 $graph = new Graph(1000,600,"auto");
 $graph->SetMargin(40,40,20,100); 			//Rahmen
+$graph->title->Set("Verlauf der Feuchtigkeits&aumlnderung heute");
 
 //XY-Achse: datint: Datum - Integer
 $graph->SetScale("datint");
@@ -40,6 +41,14 @@ $graph -> xgrid -> Show(true, true);
 $feuchtelinie = new LinePlot($FeuchteWert, $datum);
 $graph->Add($feuchtelinie); 
 $feuchtelinie->SetColor("red");
+
+//legende
+$drucklinie->SetLegend('Luftfeuchtigkeit');
+$graph->legend->SetLineWeight(2);
+$graph->legend->Pos(0.05, 0.01, 'right', 'top');
+$graph->legend->SetColor("darkblue");
+$graph->legend->SetFont(FF_FONT1, FS_NORMAL);
+$graph->legend->SetFillColor('gray');
 
 //Grafik anzeigen
 $graph->Stroke();

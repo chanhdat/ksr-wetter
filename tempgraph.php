@@ -32,7 +32,7 @@ while ($array2 = mysql_fetch_row($tau)) {
 }
 //Grafik generieren
 $graph = new Graph(1000,600,"auto");
-$graph->SetMargin(40,20,40,100); 			//Rahmen
+$graph->SetMargin(40,40,20,100); 			//Rahmen
 $graph->title->Set("Verlauf Temperatur Heute");
 
 //XY-Achse: datint: Datum - Integer
@@ -58,9 +58,9 @@ $taulinie->SetColor("#28A122");
 $templinie->SetLegend('Temperatur');
 $taulinie->SetLegend('Taupunkt');
 $graph->legend->SetLineWeight(2);
-$graph->legend->Pos( 0.5, 0.95, 'center', 'bottom'); 
+$graph->legend->Pos( 0.05, 0.01, 'right', 'top'); 
 $graph->legend->SetColor("darkblue"); 
-$graph->legend->SetFont(FF_FONT1 ,FS_NORMAL); 
+$graph->legend->SetFont(FF_FONT1, FS_NORMAL); 
 $graph->legend->SetFillColor('gray'); 
 
 //Grafik anzeigen
