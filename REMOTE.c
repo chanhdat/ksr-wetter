@@ -22,9 +22,6 @@ int ac1, ac2, ac3;
 unsigned int ac4, ac5, ac6;
 int b1, b2, mb, mc, md;
 
-//Zusätzliche Variablen (für Taupunkt berechnen)
-double a, b;
-//
 long b5; 
 //wird in bmp085GetTemperature und auch in bmp085GetPressure berechnet
 //Temp() muss vor Druck() kommen

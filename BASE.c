@@ -20,6 +20,9 @@ double konst1 = 2731.5;
 double h = 480; //Wetterstationshöhe über Meer
 double konst2 = h/30.8;
 
+//Zusätzliche Variablen (für Taupunkt berechnen)
+double a, b;
+
 //Server-Infomation eingeben
 char serverName[] = "www.chanhdat.us";
 byte mac[] = {0x90, 0xA2, 0xDA, 0x00, 0x9D, 0x4E}; //MAC-Adresse von Ethernet Shield
