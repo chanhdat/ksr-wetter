@@ -23,6 +23,9 @@ double konst2 = h/30.8;
 //Zusätzliche Variablen (für Taupunkt berechnen)
 double a, b;
 
+//LED-Signal (Debug)
+int led = 13;
+
 //Server-Infomation eingeben
 char serverName[] = "www.chanhdat.us";
 byte mac[] = {0x90, 0xA2, 0xDA, 0x00, 0x9D, 0x4E}; //MAC-Adresse von Ethernet Shield
@@ -30,15 +33,23 @@ EthernetClient client; //Client tragt Daten an Server ein, normalerweise durch P
 
 void setup(){
   Serial.begin(9600);
+  pinMode(led, INPUT);
   delay(1000);  // warten, bis LAN gestartet
   
   if (Ethernet.begin(mac) == 0) {
     Serial.println("Fehler beim konfigurieren Ethernet mit DHCP");
     // Es bringt nichts, weiter zu gehen, wenn Arduino nicht mit Internet verbinden kann.
+    digitalWrite(led, HIGH);
     for(;;)
       ;
   }
-
+  if (dataLesen()==0) {
+    digitalWrite(led, HIGH);
+    delay(1000);
+    digitalWrite(led, LOW);
+    delay(1000);
+    softReset();
+    }
 }
 
 void loop(){
@@ -88,8 +99,15 @@ void loop(){
     /*Serial.println();
     Serial.println("disconnecting.");*/
     client.stop();
-}    
-  delay(1799000);
+} digitalWrite(led, HIGH);
+  delay(1000);
+  digitalWrite(led, LOW);
+  delay(1000);
+  digitalWrite(led, HIGH);
+  delay(1000);
+  digitalWrite(led, LOW);
+  delay(1000);  
+  delay(1795000);
   softReset();
 /*  else {
     // 2. Worst-Case-Szenario
