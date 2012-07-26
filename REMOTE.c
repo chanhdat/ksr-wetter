@@ -7,9 +7,6 @@
 #include <Wire.h>
 //Steuerung-Library für BMP085: Luftdruck/Temp.sensor
 
-#include <math.h>
-//Mathematik-Bibliothek
-
 #define DHT22_PIN 7 //Data-Pin von DHT22 verbindet mit Pin 7 von MIC
 DHT22 myDHT22(DHT22_PIN);
 
@@ -26,14 +23,18 @@ long b5;
 //wird in bmp085GetTemperature und auch in bmp085GetPressure berechnet
 //Temp() muss vor Druck() kommen
 
+//LED-Signal (Debug)
+int led = 13;
+
 void setup(){
   Serial.begin(9600);
   Wire.begin(); //Luftdrucksensor aktivieren
-  bmp085Calibration(); //Kalibrierung 
+  bmp085Calibration(); //Kalibrierung
+  pinMode(led, INPUT);
 }
 
 void loop(){
-  
+  digitalWrite(led, HIGH);
 //Temperatur und Luftdruck messen (durch Sensor BMP085)
   float temperatur = bmp085GetTemperature(bmp085ReadUT());
   float druck = bmp085GetPressure(bmp085ReadUP());
@@ -58,6 +59,7 @@ void loop(){
   Serial.print(feuchte);
   Serial.println("F");
   Serial.println();
+  digitalWrite(led, LOW);
   delay(1800000);
   
 }

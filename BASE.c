@@ -4,6 +4,9 @@
 #include <SPI.h>
 //Nötige Bibliothek für das Erstellen einer Datenverbindung zwischen Ethernet Shield und Arduino
 
+#include <math.h>
+//Mathematik-Bibliothek
+
 //Für die Umwandlung von Text in float-Variable braucht man hier ein Array
 char cArray[10]; 
 int ic=0;
