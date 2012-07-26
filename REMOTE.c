@@ -30,7 +30,7 @@ void setup(){
   Serial.begin(9600);
   Wire.begin(); //Luftdrucksensor aktivieren
   bmp085Calibration(); //Kalibrierung
-  pinMode(led, INPUT);
+  pinMode(led, OUTPUT);
 }
 
 void loop(){

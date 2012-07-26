@@ -36,7 +36,7 @@ EthernetClient client; //Client tragt Daten an Server ein, normalerweise durch P
 
 void setup(){
   Serial.begin(9600);
-  pinMode(led, INPUT);
+  pinMode(led, OUTPUT);
   delay(1000);  // warten, bis LAN gestartet
   
   if (Ethernet.begin(mac) == 0) {
