@@ -8,11 +8,11 @@
 char cArray[10]; 
 int ic=0;
 
-double t = 0;//Messwerte von BMP085
-double t2 = 0;//Messwerte von DHT22 
+double temp = 0;
 double qfe = 0;
 double qff = 0;
-double f = 0;
+double feuchte = 0;
+double taupunkt = 0;
 
 //Variablen für QFF-Brechnung
 double x;
@@ -20,91 +20,62 @@ double konst1 = 2731.5;
 double h = 480; //Wetterstationshöhe über Meer
 double konst2 = h/30.8;
 
-//Zusätzliche Variablen (für Taupunkt berechnen)
-double a, b;
-
 //Server-Infomation eingeben
 char serverName[] = "www.chanhdat.us";
 byte mac[] = {0x90, 0xA2, 0xDA, 0x00, 0x9D, 0x4E}; //MAC-Adresse von Ethernet Shield
 EthernetClient client; //Client tragt Daten an Server ein, normalerweise durch Port 80
 
 void setup(){
-  Serial.begin(9600);  
+  Serial.begin(9600);
+  delay(1000);  // warten, bis LAN gestartet
+  
   if (Ethernet.begin(mac) == 0) {
     Serial.println("Fehler beim konfigurieren Ethernet mit DHCP");
     // Es bringt nichts, weiter zu gehen, wenn Arduino nicht mit Internet verbinden kann.
     for(;;)
       ;
   }
-  delay(1000);  // warten, bis LAN gestartet ist.
+
 }
 
 void loop(){
-  while (dataLesen() != 1) {
-  delay(100);
-  dataLesen();
-  }
-  
-  Serial.print("T1: ");
-  Serial.println(t);
-  Serial.print("T2: ");
-  Serial.println(t2);
-  Serial.print("Druck: ");
-  Serial.println(qfe);
-  Serial.print("Feuchte: ");
-  Serial.println(f);
-   
+  if (dataLesen()==1) {
   //QFF-Berechnung
-  x = ((t + konst1)/(qfe/100)*exp(((t+konst1+konst2)*11.5526-26821)/(t+konst1+konst2-1060)));
-  qff = (qfe/100)*exp(konst2*10.5152/(x+t+konst1+konst2));
-     
-//Taupunkt berechnen
-  if (t >= 0) {
-    a = 7.5;
-    b = 237.3;
-  } else {
-    a = 7.6;
-    b = 240.7;
-  }
-  
-  double SDD = 6.1078 * pow(10,((a*t)/(b+t))); // Sättigungsdampfdruck in hPa
-  double DD = f/100 * SDD; //Dampfdruck in hPa
-  double v = log(DD/6.1078) / log(10);
-  double ta = b * v /(a - v); //Taupunkttemperatur in °C
-  
+  x = ((temp + konst1)/(qfe/100)*exp(((temp+konst1+konst2)*11.5526-26821)/(temp+konst1+konst2-1060)));
+  qff = (qfe/100)*exp(konst2*10.5152/(x+temp+konst1+konst2));
   //Messwerten abschicken
   if (client.connect(serverName, 80)) {
-    Serial.println("Verbunden ... sende ... fertig!");
+    //Serial.println("Verbunden ... sende ... fertig!");
     // URL anrufen:
     client.print("GET /upload.php?TEMP=");
-    client.print(t);
-    client.print("&TEMP2=");
-    client.print(t2);
+    client.print(temp);
     client.print("&TAU=");
-    client.print(ta);
+    client.print(taupunkt);
     client.print("&QFE=");
     client.print(qfe/100, 1);
     client.print("&QFF=");
     client.print(qff,1);
     client.print("&FEUCHTE=");
-    client.print(f);
+    client.print(feuchte);
     client.println("&key=root HTTP/1.0\n");
     client.println("Host: localhost");
     client.println("User-Agent: Arduino");
     client.println();
-    char c = client.read();
-    Serial.print(c);
-  } else if (!client.connected()) {
-    Serial.println();
-    Serial.println("Verbindung trennen...");
     client.stop();
-  } else {
-    Serial.print("RAWWWWWR!");
-  }
-  delay(897500);
-  softReset();  
+  } 
+  if (!client.connected()) {
+    /*Serial.println();
+    Serial.println("disconnecting.");*/
+    client.stop();
+}    
+  delay(899500);
+  softReset();
+/*  else {
+    // 2. Worst-Case-Szenario
+    Serial.println("connection failed");
+  }*/
 }
-
+}
 
 int dataLesen() {
   int done = 0;
@@ -115,10 +86,10 @@ int dataLesen() {
     //Lesen
     incomingByte = Serial.read();
     
-    if (incomingByte == 'T') t = atof(cArray);
-    if (incomingByte == 'C') t2 = atof(cArray);
+    if (incomingByte == 'T') temp = atof(cArray);
+    if (incomingByte == 'P') taupunkt = atof(cArray);
     if (incomingByte == 'D') qfe = atof(cArray);
-    if (incomingByte == 'F') {f = atof(cArray); done = 1;}
+    if (incomingByte == 'F') {feuchte = atof(cArray); done = 1;}
     
       //If the recieved byte is a digit (specified by ASCII values 65 to 90)
       if (incomingByte>64 && incomingByte<91) 

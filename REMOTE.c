@@ -7,6 +7,9 @@
 #include <Wire.h>
 //Steuerung-Library für BMP085: Luftdruck/Temp.sensor
 
+#include <math.h>
+//Mathematik-Bibliothek
+
 #define DHT22_PIN 7 //Data-Pin von DHT22 verbindet mit Pin 7 von MIC
 DHT22 myDHT22(DHT22_PIN);
 
@@ -19,37 +22,50 @@ int ac1, ac2, ac3;
 unsigned int ac4, ac5, ac6;
 int b1, b2, mb, mc, md;
 
+//Zusätzliche Variablen (für Taupunkt berechnen)
+double a, b;
+//
 long b5; 
 //wird in bmp085GetTemperature und auch in bmp085GetPressure berechnet
 //Temp() muss vor Druck() kommen
 
-//LED-Signal (Debug)
-int led = 13;
-
 void setup(){
   Serial.begin(9600);
   Wire.begin(); //Luftdrucksensor aktivieren
-  bmp085Calibration(); //Kalibrierung
-  pinMode(led, OUTPUT);
+  bmp085Calibration(); //Kalibrierung 
+  delay(2000);
 }
 
 void loop(){
-  digitalWrite(led, HIGH);
+  
 //Temperatur und Luftdruck messen (durch Sensor BMP085)
   float temperatur = bmp085GetTemperature(bmp085ReadUT());
   float druck = bmp085GetPressure(bmp085ReadUP());
 //Feuchtigkeit messen (durch Sensor DHT22)
   myDHT22.readData();
   float feuchte = myDHT22.getHumidity();
-  float temp2 = myDHT22.getTemperatureC();
   
-//  Serial.print("Temperatur #1: ");
+//Taupunkt berechnen
+  if (temperatur >= 0) {
+    a = 7.5;
+    b = 237.3;
+  } else {
+    a = 7.6;
+    b = 240.7;
+  }
+  
+  double SDD = 6.1078 * pow(10,((a*temperatur)/(b+temperatur))); // Sättigungsdampfdruck in hPa
+  double DD = feuchte/100 * SDD; //Dampfdruck in hPa
+  double v = log(DD/6.1078) / log(10);
+  double taupunkt = b * v /(a - v); //Taupunkttemperatur in °C
+  
+//  Serial.print("Temperatur: ");
   Serial.print(temperatur);
   Serial.println("T");
   
-//  Serial.print("Temperatur #2: ")
-  Serial.print(temp2);
-  Serial.println("C");
+//  Serial.print("Taupunkttemperatur in °C: ")
+  Serial.print(taupunkt);
+  Serial.println("P");
 
 //  Serial.print("Luftdruck: ");
   Serial.print(druck, 1); //mit 1 Nummer hinter dem Komma
@@ -59,8 +75,7 @@ void loop(){
   Serial.print(feuchte);
   Serial.println("F");
   Serial.println();
-  digitalWrite(led, LOW);
-  delay(1800000);
+  delay(900000);
   
 }
 
