@@ -21,7 +21,7 @@ double h = 480; //Wetterstationshöhe über Meer
 double konst2 = h/30.8;
 
 //Server-Infomation eingeben
-char serverName[] = "www.chanhdat.us";
+byte server[] = { 64, 233, 187, 99 };
 byte mac[] = {0x90, 0xA2, 0xDA, 0x00, 0x9D, 0x4E}; //MAC-Adresse von Ethernet Shield
 EthernetClient client; //Client tragt Daten an Server ein, normalerweise durch Port 80
 
