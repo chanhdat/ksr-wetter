@@ -55,7 +55,7 @@ $graph->Add($taulinie);
 $taulinie->SetColor("#28A122");
 
 //Legende
-$templinie->SetLegend('Temperatur (Sensor &#35;1)');
+$templinie->SetLegend('Temperatur');
 $taulinie->SetLegend('Taupunkt');
 $graph->legend->SetLineWeight(2);
 $graph->legend->Pos( 0.05, 0.01, 'right', 'top'); 
