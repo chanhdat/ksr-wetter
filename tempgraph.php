@@ -11,11 +11,9 @@ include("db.php");
 //Die 48 letze Messwerten aufrufen (= 24 Stunden)
 
 $sqlTemp = "SELECT `DATUM`, `TEMP` FROM `1Tag` ORDER BY `ID` DESC LIMIT 48"; 
-$sqlTemp2 = "SELECT `DATUM`, `TEMP2` FROM `1Tag` ORDER BY `ID` DESC LIMIT 48"; 
 $sqlTau = "SELECT `DATUM`, `TAU` FROM `1Tag` ORDER BY `ID` DESC LIMIT 48"; 
 
 $temp = mysql_query($sqlTemp) or die(mysql_error());
-$temp2 = mysql_query($sqlTemp2) or die(mysql_error());
 $tau = mysql_query($sqlTau) or die(mysql_error());
 
 //In Array eintragen
@@ -23,13 +21,6 @@ $i=0;
 while ($array1 = mysql_fetch_row($temp)) {
 	$datum[$i] = strtotime($array1[0]);
 	$TempWert[$i] = $array1[1];
-	$i++;
-}
-
-$i=0;
-while ($array2 = mysql_fetch_row($temp2)) {
-	$datum[$i] = strtotime($array2[0]);
-	$Temp2Wert[$i] = $array2[1];
 	$i++;
 }
 
@@ -59,17 +50,12 @@ $templinie = new LinePlot($TempWert, $datum);
 $graph->Add($templinie); 
 $templinie->SetColor("red");
 
-$templinie2 = new LinePlot($Temp2Wert, $datum);
-$graph->Add($templinie2); 
-$templinie2->SetColor("blue");
-
 $taulinie = new LinePlot($TauWert, $datum);
 $graph->Add($taulinie);
 $taulinie->SetColor("#28A122");
 
 //Legende
 $templinie->SetLegend('Temperatur (Sensor &#35;1)');
-$templinie2->SetLegend('Temperatur (Sensor &#35;2)');
 $taulinie->SetLegend('Taupunkt');
 $graph->legend->SetLineWeight(2);
 $graph->legend->Pos( 0.05, 0.01, 'right', 'top'); 
