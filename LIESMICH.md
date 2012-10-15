@@ -1,7 +1,8 @@
 READ ME
 ==========
-Aim: Code for a weather station, which uses 2 sensors: BMP085(Bosch) and DHT22 to measure the enviroment and report back through a xBee Link to the base unit. The base unit will send the data to a database on a specific webserver. Here the data will be processed, and generate graphs.
 
+Aim: Code for a weather station, which uses 2 sensors: BMP085(Bosch) and DHT22 to measure the enviroment and report back through a xBee Link to the base unit. The base unit will send the data to a database on a specific webserver. Here the data will be processed, and generate graphs.
+All measure values will be shown at: http://chanhdat.us/?page_id=712 
 Hardware:
 
 1. 2 Arduino Uno R3
