@@ -45,7 +45,7 @@ $graph->Add($feuchtelinie);
 $feuchtelinie->SetColor("red");
 
 //legende
-$drucklinie->SetLegend('Luftfeuchtigkeit');
+$feuchte->SetLegend('Luftfeuchtigkeit');
 $graph->legend->SetLineWeight(2);
 $graph->legend->Pos(0.05, 0.01, 'right', 'top');
 $graph->legend->SetColor("darkblue");
