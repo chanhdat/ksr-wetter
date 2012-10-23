@@ -10,8 +10,8 @@ include("db.php");
 
 //Die 48 letze Messwerten aufrufen (= 24 Stunden)
 
-$sqlTemp = "SELECT `DATUM`, `TEMP` FROM `1Tag` ORDER BY `ID` DESC LIMIT 48"; 
-$sqlTau = "SELECT `DATUM`, `TAU` FROM `1Tag` ORDER BY `ID` DESC LIMIT 48"; 
+$sqlTemp = "SELECT `DATUM`, `TEMP` FROM `1Tag` WHERE `DATUM` >= SYSDATE( ) - INTERVAL 1 DAY ORDER BY `ID` DESC"; 
+$sqlTau = "SELECT `DATUM`, `TAU` FROM `1Tag` WHERE `DATUM` >= SYSDATE( ) - INTERVAL 1 DAY ORDER BY `ID` DESC"; 
 
 $temp = mysql_query($sqlTemp) or die(mysql_error());
 $tau = mysql_query($sqlTau) or die(mysql_error());
@@ -33,7 +33,7 @@ while ($array3 = mysql_fetch_row($tau)) {
 //Grafik generieren
 $graph = new Graph(1000,600,"auto");
 $graph->SetMargin(40,40,20,100); 			//Rahmen
-$graph->title->Set("Verlauf Temperatur Heute");
+$graph->title->Set("Temperatur letzte 24 Stunden");
 
 //XY-Achse: datint: Datum - Integer
 $graph->SetScale("datint");

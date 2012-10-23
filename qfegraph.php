@@ -10,7 +10,7 @@ include("db.php");
 
 //Die 48 letze Messwerten aufrufen (= 24 Stunden)
 
-$sqlDruck = "SELECT `DATUM`, `QFE` FROM `1Tag` ORDER BY `ID` DESC LIMIT 48"; 
+$sqlDruck = "SELECT `DATUM`, `QFE` FROM `1Tag` WHERE `DATUM` >= SYSDATE( ) - INTERVAL 1 DAY ORDER BY `ID` DESC"; 
 
 $druck = mysql_query($sqlDruck) or die(mysql_error());
 
@@ -25,7 +25,7 @@ while ($array = mysql_fetch_row($druck)) {
 //Grafik generieren
 $graph = new Graph(1000,600,"auto");
 $graph->SetMargin(40,40,20,100); 			//Rahmen
-$graph->title->Set("Verlauf des Luftdruck (auf Stationshöhe) Heute");
+$graph->title->Set("Der Luftdruck (auf Stationshöhe) letzte 24 Stunden");
 
 //XY-Achse: datint: Datum - Integer
 $graph->SetScale("datint");
@@ -43,12 +43,13 @@ $graph->Add($drucklinie);
 $drucklinie->SetColor('red','darked');
 
 //legende
-$drucklinie->SetLegend('luftdruck auf Meeresh&oumlhe');
+$drucklinie->SetLegend('luftdruck auf Stationsh&oumlhe');
 $graph->legend->SetLineWeight(2);
 $graph->legend->Pos(0.05, 0.01, 'right', 'top');
 $graph->legend->SetColor("darkblue");
 $graph->legend->SetFont(FF_FONT1, FS_NORMAL);
 $graph->legend->SetFillColor('gray');
+
 
 //Grafik anzeigen
 $graph->Stroke();

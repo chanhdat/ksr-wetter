@@ -10,7 +10,7 @@ include("db.php");
 
 //Die 48 letze Messwerten aufrufen (= 24 Stunden)
 
-$sqlFeuchte = "SELECT `DATUM`, `FEUCHTE` FROM `1Tag` ORDER BY `ID` DESC LIMIT 48"; 
+$sqlFeuchte = "SELECT `DATUM`, `FEUCHTE` FROM `1Tag` WHERE `DATUM` >= SYSDATE( ) - INTERVAL 1 DAY ORDER BY `ID` DESC"; 
 
 $feuchte = mysql_query($sqlFeuchte) or die(mysql_error());
 
@@ -25,7 +25,7 @@ while ($array = mysql_fetch_row($feuchte)) {
 //Grafik generieren
 $graph = new Graph(1000,600,"auto");
 $graph->SetMargin(40,40,20,100); 			//Rahmen
-$graph->title->Set("Verlauf der Feuchtigkeits&aumlnderung heute");
+$graph->title->Set("Die Luftfeuchtigkeit letzte 24 Stunden");
 
 //XY-Achse: datint: Datum - Integer
 $graph->SetScale("datint");
@@ -33,9 +33,11 @@ $graph->SetScale("datint");
 //Datumsformat
 $graph->xaxis->SetLabelAngle(90);
 $graph->xaxis->SetLabelFormatString('d, M, H:i', true);
-$graph->xaxis->scale->SetTimeAlign(HOURADJ_2);
+//$graph->xaxis->scale->SetTimeAlign(HOURADJ_2);
 
-$graph -> xgrid -> Show(true, true);
+$graph -> xgrid -> Show(true, false);
+$graph -> ygrid -> Show(true, false);
+$graph->ygrid->SetColor("lightblue");
 
 //Graphen generieren
 $feuchtelinie = new LinePlot($FeuchteWert, $datum);

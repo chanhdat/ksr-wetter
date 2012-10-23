@@ -10,7 +10,7 @@ include("db.php");
 
 //Die 48 letze Messwerten aufrufen (= 24 Stunden)
 
-$sqlDruck = "SELECT `DATUM`, `QFF` FROM `1Tag` ORDER BY `ID` DESC LIMIT 48"; 
+$sqlDruck = "SELECT `DATUM`, `QFF` FROM `1Tag` WHERE `DATUM` >= SYSDATE( ) - INTERVAL 1 DAY ORDER BY `ID` DESC"; 
 
 $druck = mysql_query($sqlDruck) or die(mysql_error());
 
@@ -25,7 +25,7 @@ while ($array = mysql_fetch_row($druck)) {
 //Grafik generieren
 $graph = new Graph(1000,600,"auto");
 $graph->SetMargin(40,40,20,100); 			//Rahmen
-$graph->title->Set("Verlauf des Luftdruck (auf Meeresh&oumlhe: 480 m.&uuml.M) Heute");
+$graph->title->Set("Der Luftdruck (auf Meereshöhe) letzte 24 Stunden");
 
 //XY-Achse: datint: Datum - Integer
 $graph->SetScale("datint");
