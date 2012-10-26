@@ -8,8 +8,6 @@ include ("/srv/www/vhosts/chanhdat.us/httpdocs/jpgraph/jpgraph_date.php");
 // Datenbank-Zugriff
 include("db.php");
 
-//Die 48 letze Messwerten aufrufen (= 24 Stunden)
-
 $sqlFeuchte = "SELECT `DATUM`, `FEUCHTE` FROM `1Tag` WHERE `DATUM` >= SYSDATE( ) - INTERVAL 1 DAY ORDER BY `ID` DESC"; 
 
 $feuchte = mysql_query($sqlFeuchte) or die(mysql_error());
