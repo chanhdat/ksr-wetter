@@ -10,6 +10,10 @@ if ((($_GET['key']) == "root")) {	//wenn key stimmt
 	$QFE = ($_GET['QFE']);
 	$QFF = ($_GET['QFF']);
 	$FEUCHTE = ($_GET['FEUCHTE']);
+//Taupunkt korrigieren (Xbee kann "-"Zeichnen nicht übertragen, wegen (meinem) schlechten Code.)	
+if ($TAU > $TEMP) {
+	$TAU *= -1;
+	}	
 	
 	//Eingetragene Messwerten anzeigen - Debug!
 	echo "<p>Temperatur (von Sensor &#35 1 gemessen) ist ".$TEMP ."</p>";
